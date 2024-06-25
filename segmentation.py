@@ -12,6 +12,13 @@ from threading import Thread
 class Pool:
     H, W = 740, 740
 
+    POOL_ROI = ROI (
+        76,
+        1036,
+        431,
+        1391,
+    )
+
     INFO_TABLE_MASK_ROI = ROI (
         y1=H//4*3,
         y2=H,
@@ -52,7 +59,7 @@ class Pool:
         ret, frame = self.cap.read()
         assert ret, f'Couldnt get frame from {self.src_link}'
 
-        self.raw  = Frame(frame, 'bgr').roi(ROI(110, 850, 110, 850)).bitwise(self.CROPPING_MASK)
+        self.raw  = Frame(frame, 'bgr').roi(self.POOL_ROI).roi(ROI(110, 850, 110, 850)).bitwise(self.CROPPING_MASK)
         self.hsv  = self.raw.cvt2hsv()
         self.gray = self.raw.cvt2gray()
 
